@@ -1,25 +1,30 @@
 package br.com.alura.aluraforum.controller
 
+import br.com.alura.aluraforum.DTOS.TopicoForm
+import br.com.alura.aluraforum.DTOS.TopicoView
 import br.com.alura.aluraforum.Service.TopicoService
-import br.com.alura.aluraforum.model.Curso
-import br.com.alura.aluraforum.model.Topico
-import br.com.alura.aluraforum.model.Usuario
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
-import java.util.*
+import jakarta.validation.Valid
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping ("/topicos")
 class TopicoController(private val service: TopicoService) {
    @GetMapping
-  fun listar(): List<Topico> {
+  fun listar(): List<TopicoView> {
        return service.listar()
    }
 
     @GetMapping ("/{id}")
-  fun buscaId(@PathVariable id: Long): Topico{
+    //Path indica que o parametro vem no endpoint
+   fun buscaId(@PathVariable id: Long): TopicoView{
    return service.buscarporId(id)
   }
+
+
+    @PostMapping
+    //RequestBody indica que o parametro vem pelo corpo da mensagem
+    fun cadastrar(@RequestBody @Valid dto:TopicoForm){
+        service.cadastrar(dto)
+
+    }
 }
