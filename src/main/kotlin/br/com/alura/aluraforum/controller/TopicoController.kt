@@ -5,6 +5,7 @@ import br.com.alura.aluraforum.DTOS.TopicoForm
 import br.com.alura.aluraforum.DTOS.TopicoView
 import br.com.alura.aluraforum.Service.TopicoService
 import io.swagger.v3.oas.annotations.Operation
+import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -28,6 +29,7 @@ class TopicoController(private val service: TopicoService) {
 
     @Operation(summary = "Efetua cadastro de tópico")
     @PostMapping
+    @Transactional
     //RequestBody indica que o parametro vem pelo corpo da mensagem
     fun cadastrar(@RequestBody @Valid dto:TopicoForm,
                   uriBuilder:UriComponentsBuilder
@@ -38,12 +40,14 @@ class TopicoController(private val service: TopicoService) {
     }
     @Operation(summary = "Efetua atualização de tópico")
     @PutMapping
+    @Transactional
     fun atualilzar(@RequestBody @Valid form: TopicoAtlzForm) : ResponseEntity<TopicoView>{
      val topicoView = service.atualizar(form)
         return ResponseEntity.ok(topicoView)
     }
     @Operation(summary = "Efetua exclusão de tópico")
     @DeleteMapping ("/{id}")
+    @Transactional //indica que será efetuado uma transação no banco apenas para metodos de escrita na base
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deletar(@PathVariable  id: Long){
         service.deletar(id)
