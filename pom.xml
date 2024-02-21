@@ -24,6 +24,13 @@
 			<artifactId>kotlin-maven-noarg</artifactId>
 			<version>${kotlin.version}</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-core -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>10.7.2</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -99,6 +106,12 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.qinglinyi.arg</groupId>
+			<artifactId>arg-compiler</artifactId>
+			<version>0.9.2</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -130,6 +143,7 @@
 					</execution>
 				</executions>
 				<configuration>
+
 					<args>
 						<arg>-Xskip-metadata-version-check</arg>
 					</args>
@@ -139,8 +153,18 @@
 						<plugin>no-arg</plugin>
 					</compilerPlugins>
 					<jvmTarget>1.8</jvmTarget>
+					<pluginOptions>
+						<option>no-arg:annotation=com.my.Annotation</option>
+						<!-- Call instance initializers in the synthetic constructor -->
+						 <option>no-arg:invokeInitializers=true</option>
+					</pluginOptions>
 				</configuration>
 				<dependencies>
+					<dependency>
+						<groupId>org.jetbrains.kotlin</groupId>
+						<artifactId>kotlin-maven-noarg</artifactId>
+						<version>${kotlin.version}</version>
+					</dependency>
 					<dependency>
 						<groupId>org.jetbrains.kotlin</groupId>
 						<artifactId>kotlin-maven-allopen</artifactId>

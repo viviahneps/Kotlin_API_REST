@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component
             return Topico(
                 id = t.id,
                 titulo =t.titulo,
-                mensagem= t.mensagem,
-                curso= cursoservice.buscacursoId(t.idcurso),
+                mensagem = t.mensagem,
+                curso = cursoservice.buscacursoId(t.idcurso),
                 autor = autor.buscaautoresId(t.idautor)
             )
 
