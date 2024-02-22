@@ -6,12 +6,11 @@ import br.com.alura.aluraforum.DTOS.TopicoView
 import br.com.alura.aluraforum.Mapper.TopicoFormMapper
 import br.com.alura.aluraforum.Mapper.TopicoViewMapper
 import br.com.alura.aluraforum.exception.NotFoundException
-import br.com.alura.aluraforum.model.Topico
-import br.com.alura.aluraforum.repository.CursoRepository
 import br.com.alura.aluraforum.repository.TopicoRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import java.util.*
-import java.util.stream.Collectors
+
 
 @Service
 class TopicoService (private val repository: TopicoRepository,
@@ -19,10 +18,18 @@ class TopicoService (private val repository: TopicoRepository,
                      private val topicoFMapper: TopicoFormMapper,
                      private val notfoundmessage: String= "Topico não encontrado !"){
 
-    fun listar(): List<TopicoView> {
-     return repository.findAll().stream().map {
+    fun listar(
+        nomeCurso: String?,
+        paginacao: Pageable
+    ): Page<TopicoView> {
+     val topicos = if(nomeCurso == null){
+       repository.findAll(paginacao)
+     }else{
+       repository.findByCursoNome(nomeCurso,paginacao)
+     }
+        return topicos.map {
          t -> topicoVMapper.map(t)
-         }.collect(Collectors.toList())
+         }
 
     }
 

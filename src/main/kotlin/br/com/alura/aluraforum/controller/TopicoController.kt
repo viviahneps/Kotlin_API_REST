@@ -7,18 +7,26 @@ import br.com.alura.aluraforum.Service.TopicoService
 import io.swagger.v3.oas.annotations.Operation
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
+
 
 @RestController
 @RequestMapping ("/topicos")
 class TopicoController(private val service: TopicoService) {
    @Operation(summary = "Obtem lista de tópicos")
    @GetMapping
-  fun listar(): List<TopicoView> {
-       return service.listar()
+  fun listar(
+       @RequestParam(required = false ) nomeCurso : String?,
+       @PageableDefault(size= 5, sort = ["dataCriacao"], direction = Sort.Direction.DESC)paginacao: Pageable // para restringir a 5dados por pagina e também por ordem desc por data
+   ): Page<TopicoView> {
+       return service.listar(nomeCurso,paginacao)
    }
     @Operation(summary = "Obtem lista de tópicos por ID")
     @GetMapping ("/{id}")
@@ -32,7 +40,7 @@ class TopicoController(private val service: TopicoService) {
     @Transactional
     //RequestBody indica que o parametro vem pelo corpo da mensagem
     fun cadastrar(@RequestBody @Valid dto:TopicoForm,
-                  uriBuilder:UriComponentsBuilder
+                  uriBuilder: UriComponentsBuilder
         ) : ResponseEntity<TopicoView>{
         val topicoView = service.cadastrar(dto)
         val uri =uriBuilder.path("/topicos/${topicoView.id}").build().toUri()
