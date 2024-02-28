@@ -12,7 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder
 
 @RestController
 @RequestMapping("/cursos")
-class CursoControlller (private val service: CursoService ) {
+class CursoController (private val service: CursoService ) {
 
         @Operation(summary = "Obtem lista de cursos")
         @GetMapping

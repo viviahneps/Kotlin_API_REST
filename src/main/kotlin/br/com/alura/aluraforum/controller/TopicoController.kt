@@ -20,20 +20,26 @@ import org.springframework.web.util.UriComponentsBuilder
 @RestController
 @RequestMapping ("/topicos")
 class TopicoController(private val service: TopicoService) {
+
    @Operation(summary = "Obtem lista de tópicos")
    @GetMapping
-  fun listar(
+   fun listar(
        @RequestParam(required = false ) nomeCurso : String?,
-       @PageableDefault(size= 5, sort = ["dataCriacao"], direction = Sort.Direction.DESC)paginacao: Pageable // para restringir a 5dados por pagina e também por ordem desc por data
-   ): Page<TopicoView> {
+       @PageableDefault(size= 5, sort = ["dataCriacao"], direction = Sort.Direction.DESC) paginacao: Pageable // para restringir a 5dados por pagina e também por ordem desc por data
+    ): Page<TopicoView> {
        return service.listar(nomeCurso,paginacao)
-   }
+    }
+/*
+   fun listar(): List<TopicoView> {
+       return service.listar()
+   }*/
+
     @Operation(summary = "Obtem lista de tópicos por ID")
     @GetMapping ("/{id}")
     //Path indica que o parametro vem no endpoint
-   fun buscaId(@PathVariable id: Long): TopicoView{
-   return service.buscarporId(id)
-  }
+    fun buscaId(@PathVariable id: Long): TopicoView{
+    return service.buscarporId(id)
+    }
 
     @Operation(summary = "Efetua cadastro de tópico")
     @PostMapping
@@ -46,6 +52,7 @@ class TopicoController(private val service: TopicoService) {
         val uri =uriBuilder.path("/topicos/${topicoView.id}").build().toUri()
         return ResponseEntity.created(uri).body(topicoView)
     }
+
     @Operation(summary = "Efetua atualização de tópico")
     @PutMapping
     @Transactional
@@ -53,6 +60,7 @@ class TopicoController(private val service: TopicoService) {
      val topicoView = service.atualizar(form)
         return ResponseEntity.ok(topicoView)
     }
+
     @Operation(summary = "Efetua exclusão de tópico")
     @DeleteMapping ("/{id}")
     @Transactional //indica que será efetuado uma transação no banco apenas para metodos de escrita na base

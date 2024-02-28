@@ -14,7 +14,7 @@ data class Curso(
     val nome: String,
     val categoria: String
         ) {
-private constructor(): this(0, "","")
+    constructor(): this(0, "","")
 }
 
 

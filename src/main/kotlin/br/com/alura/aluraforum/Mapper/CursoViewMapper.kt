@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component
 
 @Component
 class CursoViewMapper : Mapper<Curso, CursoView> {
-    override fun map(c: Curso): CursoView {
+    override fun map(t: Curso): CursoView {
         return CursoView(
-            id = c.id,
-            categoria = c.categoria,
-            nome = c.nome
+            id = t.id,
+            categoria = t.categoria,
+            nome = t.nome
         )
     }
 }

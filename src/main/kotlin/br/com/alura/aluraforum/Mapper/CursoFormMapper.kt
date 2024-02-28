@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component
 
 @Component
 class CursoFormMapper : Mapper<CursoForm, Curso> {
-    override fun map(c: CursoForm): Curso {
+    override fun map(t: CursoForm): Curso {
         return Curso(
-            id = c.id,
-            nome = c.nome,
-            categoria = c.categoria
+            id = t.id,
+            nome = t.nome,
+            categoria = t.categoria
         )
 
     }

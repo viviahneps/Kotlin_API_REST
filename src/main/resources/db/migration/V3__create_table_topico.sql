@@ -6,6 +6,7 @@ create table topico(
     status varchar(20) not null,
     curso_id bigint not null,
     autor_id bigint not null,
+    resposta null,
     primary key(id),
     foreign key(curso_id) references curso(id),
     foreign key(autor_id) references usuario(id)
