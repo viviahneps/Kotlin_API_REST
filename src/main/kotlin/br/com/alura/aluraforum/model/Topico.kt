@@ -16,9 +16,9 @@ data class   Topico(
     @ManyToOne
     val autor: Usuario?,
     @Enumerated(value = EnumType.STRING) // para que nao seja gravado a ordem da constante na coluna da tabela
-    val status: StatusTopico= StatusTopico.NAO_RESPONDIDO,
+    var status: StatusTopico = StatusTopico.NAO_RESPONDIDO,
     @OneToMany(mappedBy = "topico")
-    val respostas: List<Resposta> =  ArrayList()
+    var respostas: List<Resposta>? =  ArrayList()
 )
 {
 constructor() : this(null," ", "", null,null,null)

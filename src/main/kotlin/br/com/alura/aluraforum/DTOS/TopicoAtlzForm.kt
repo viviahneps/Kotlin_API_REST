@@ -14,7 +14,7 @@ data class TopicoAtlzForm (
     val titulo : String,
     @field: NotEmpty
     val mensagem: String,
-    val respostas: List<Resposta> =  ArrayList ()
+    var respostas: List<Resposta> =  ArrayList ()
         )
 
 

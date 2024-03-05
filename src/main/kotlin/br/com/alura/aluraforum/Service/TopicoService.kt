@@ -65,7 +65,6 @@ class TopicoService (private val repository: TopicoRepository,
     fun atualizar(form: TopicoAtlzForm) : TopicoView {
         val topico =repository.findById(form.id)
         .orElseThrow{NotFoundException(notfoundmessage)}
-
         topico.titulo = form.titulo
         topico.mensagem = form.mensagem
         return  topicoVMapper.map(topico)
@@ -77,9 +76,10 @@ class TopicoService (private val repository: TopicoRepository,
 
     fun buscaIdEspecial(id: Long): Topico {
         val topico= repository.findById(id)
-           .orElseThrow{NotFoundException(notfoundmessage)}
+            .orElseThrow{NotFoundException(notfoundmessage)}
         return topico
     }
+
 
 
 

@@ -18,4 +18,6 @@ data class Resposta(
     val topico: Topico?,
     val status: Boolean
 
-)
+){
+    constructor() : this(0," ", null, null,null,false)
+}
