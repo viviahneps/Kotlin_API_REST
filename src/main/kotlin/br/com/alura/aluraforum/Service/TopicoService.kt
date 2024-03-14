@@ -1,20 +1,17 @@
 package br.com.alura.aluraforum.Service
 
-import br.com.alura.aluraforum.DTOS.CursoView
 import br.com.alura.aluraforum.DTOS.TopicoAtlzForm
 import br.com.alura.aluraforum.DTOS.TopicoForm
 import br.com.alura.aluraforum.DTOS.TopicoView
 import br.com.alura.aluraforum.Mapper.TopicoFormMapper
 import br.com.alura.aluraforum.Mapper.TopicoViewMapper
 import br.com.alura.aluraforum.exception.NotFoundException
-import br.com.alura.aluraforum.model.Curso
 import br.com.alura.aluraforum.model.Topico
-import br.com.alura.aluraforum.repository.CursoRepository
 import br.com.alura.aluraforum.repository.TopicoRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import java.util.stream.Collectors
+
 
 
 @Service
@@ -24,12 +21,11 @@ class TopicoService (private val repository: TopicoRepository,
                      private var topicos: List<Topico> = ArrayList(),
                      private val notfoundmessage: String= "Topico não encontrado !"){
 
-
-
     fun listar(
         nomeCurso: String?,
         paginacao: Pageable
     ): Page<TopicoView> {
+
      val topicos = if(nomeCurso == null){
        repository.findAll(paginacao)
      }else{
@@ -40,14 +36,6 @@ class TopicoService (private val repository: TopicoRepository,
          }
 
     }
-    /*
-
-    fun listar(): List<TopicoView> {
-        return repository.findAll().stream().map {
-                c -> topicoVMapper.map(c)
-        }.collect(Collectors.toList())
-
-    }*/
 
     fun buscarporId(id: Long): TopicoView {
         val topico= repository.findById(id)

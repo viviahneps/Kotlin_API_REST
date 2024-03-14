@@ -17,15 +17,16 @@ import org.springframework.web.util.UriComponentsBuilder
 @RequestMapping("/respostas")
 class RespostaController (private val service: RespostaService) {
 
-    @Operation(summary = "Obtem lista de Respostas para o tópico")
+    @Operation(summary = "Lista respostas cadastradas")
     @GetMapping
     fun listaResposta(
+        @RequestParam(required = false ) idTopico : Long?,
         @PageableDefault(size= 5, sort = ["dataCriacao"], direction = Sort.Direction.DESC) paginacao: Pageable
     ): Page<RespostaView> {
-        return service.listaResposta(paginacao)
+        return service.listarResposta(idTopico,paginacao)
     }
 
-    @Operation(summary = "Efetua cadastro de Resposta para o topico")
+    @Operation(summary = "Cadastra resposta para o tópico")
     @PostMapping
     @Transactional
     fun cadastrarResposta(
@@ -38,11 +39,11 @@ class RespostaController (private val service: RespostaService) {
         return ResponseEntity.created(uri).body(respostaView)
     }
 
-    @Operation(summary = "Efetua aribuição de resposta no tópico")
+    @Operation(summary = "Atualiza dados e status da resposta")
     @PutMapping
     @Transactional
-    fun atualilzarResposta(@RequestBody @Valid form: RespostaForm) : ResponseEntity<TopicoView>{
-        val respostaView = service.atribuiresposta(form)
+    fun atualilzarResposta(@RequestBody @Valid form: RespostaAtlzForm) : ResponseEntity<RespostaView>{
+        val respostaView = service.atualizarResposta(form)
         return ResponseEntity.ok(respostaView)
     }
 

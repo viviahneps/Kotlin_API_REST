@@ -21,7 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder
 @RequestMapping ("/topicos")
 class TopicoController(private val service: TopicoService) {
 
-   @Operation(summary = "Obtem lista de tópicos")
+   @Operation(summary = "Lista tópicos cadastrados")
    @GetMapping
    fun listar(
        @RequestParam(required = false ) nomeCurso : String?,
@@ -29,19 +29,17 @@ class TopicoController(private val service: TopicoService) {
     ): Page<TopicoView> {
        return service.listar(nomeCurso,paginacao)
     }
-/*
-   fun listar(): List<TopicoView> {
-       return service.listar()
-   }*/
 
-    @Operation(summary = "Obtem lista de tópicos por ID")
+
+
+    @Operation(summary = "Lista tópicos cadastrados por ID")
     @GetMapping ("/{id}")
     //Path indica que o parametro vem no endpoint
     fun buscaId(@PathVariable id: Long): TopicoView{
     return service.buscarporId(id)
     }
 
-    @Operation(summary = "Efetua cadastro de tópico")
+    @Operation(summary = "Cadastra tópico")
     @PostMapping
     @Transactional
     //RequestBody indica que o parametro vem pelo corpo da mensagem
@@ -53,7 +51,7 @@ class TopicoController(private val service: TopicoService) {
         return ResponseEntity.created(uri).body(topicoView)
     }
 
-    @Operation(summary = "Efetua atualização de tópico")
+    @Operation(summary = "Atualiza tópico")
     @PutMapping
     @Transactional
     fun atualilzar(@RequestBody @Valid form: TopicoAtlzForm) : ResponseEntity<TopicoView>{
@@ -61,7 +59,7 @@ class TopicoController(private val service: TopicoService) {
         return ResponseEntity.ok(topicoView)
     }
 
-    @Operation(summary = "Efetua exclusão de tópico")
+    @Operation(summary = "Exclui tópico")
     @DeleteMapping ("/{id}")
     @Transactional //indica que será efetuado uma transação no banco apenas para metodos de escrita na base
     @ResponseStatus(HttpStatus.NO_CONTENT)
