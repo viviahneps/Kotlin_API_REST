@@ -19,6 +19,7 @@ class RespostaController (private val service: RespostaService) {
 
     @Operation(summary = "Lista respostas cadastradas")
     @GetMapping
+    @Transactional
     fun listaResposta(
         @RequestParam(required = false ) idTopico : Long?,
         @PageableDefault(size= 5, sort = ["dataCriacao"], direction = Sort.Direction.DESC) paginacao: Pageable

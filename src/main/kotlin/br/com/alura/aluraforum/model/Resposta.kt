@@ -7,7 +7,9 @@ import java.util.*
 
 @Entity
 
+
 data class Resposta(
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
     var mensagem: String,
@@ -17,6 +19,8 @@ data class Resposta(
     @ManyToOne
     val topico: Topico?,
     var status: Boolean
+
+
 
 ){
     constructor() : this(0," ", null, null,null,false)

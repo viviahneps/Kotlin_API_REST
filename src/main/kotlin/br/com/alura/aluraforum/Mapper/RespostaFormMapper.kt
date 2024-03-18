@@ -10,14 +10,14 @@ import java.time.LocalDateTime
 
 
 @Component
-  class RespostaFormMapper (
-     private var autor: UsuarioService,
-     private var topico: TopicoService
+class RespostaFormMapper (
+    private var autor: UsuarioService,
+    private var topico: TopicoService
 
-     ) : Mapper< RespostaForm, Resposta> {
+) : Mapper< RespostaForm, Resposta> {
     override fun map(t: RespostaForm): Resposta {
 
-     //  val retorno = topico.buscaIdEspecial(t.id)
+        //  val retorno = topico.buscaIdEspecial(t.id)
         return Resposta(
             id = t.id,
             mensagem =t.mensagem,
@@ -27,7 +27,6 @@ import java.time.LocalDateTime
         )
     }
 }
-
 
 
 

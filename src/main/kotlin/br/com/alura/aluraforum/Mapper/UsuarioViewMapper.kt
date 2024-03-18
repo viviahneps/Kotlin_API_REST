@@ -1,6 +1,5 @@
 package br.com.alura.aluraforum.Mapper
 
-import br.com.alura.aluraforum.DTOS.CursoView
 import br.com.alura.aluraforum.DTOS.UsuarioView
 import br.com.alura.aluraforum.model.Usuario
 import org.springframework.stereotype.Component

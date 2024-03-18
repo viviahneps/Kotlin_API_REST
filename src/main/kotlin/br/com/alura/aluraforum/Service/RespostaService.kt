@@ -8,14 +8,20 @@ import br.com.alura.aluraforum.model.Resposta
 import br.com.alura.aluraforum.model.StatusTopico
 import br.com.alura.aluraforum.repository.RespostaRepository
 import br.com.alura.aluraforum.repository.TopicoRepository
+import jakarta.persistence.NamedQuery
+import jakarta.persistence.Table
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Service
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 @Service
 class RespostaService (private var topicoservice: TopicoService,
-                       private val topicorepopsitory: TopicoRepository,
+                       private val topicorepository: TopicoRepository,
                        private var respostas :MutableList <Resposta> = ArrayList(),
                        private val repository: RespostaRepository,
                        private val respostaVMapper: RespostaViewMapper,
@@ -27,12 +33,15 @@ class RespostaService (private var topicoservice: TopicoService,
         paginacao: Pageable
       ): Page<RespostaView>{
 
-        val resposta = if(idtopico == null){
+
+
+        val respostas: Page<Resposta> = if(idtopico == null){
            repository.findAll(paginacao)
-        }else {
-          repository.findByTopicoRespostas(idtopico, paginacao)
+        } else {
+            repository.buscarespostatopico(idtopico, paginacao)
+
         }
-        return resposta.map {
+        return respostas.map {
                 t -> respostaVMapper.map(t)
         }
     }
@@ -44,7 +53,7 @@ class RespostaService (private var topicoservice: TopicoService,
       }
 
        fun cadastrarResposta(form: RespostaForm) : RespostaView {
-           val topico = topicorepopsitory.findById(form.topico)
+           val topico = topicorepository.findById(form.topico)
                .orElseThrow{NotFoundException(notfoundmessage)}
 
            if(topico.status.equals(StatusTopico.FECHADO)) {
@@ -75,7 +84,7 @@ class RespostaService (private var topicoservice: TopicoService,
 
 
     fun atualizarResposta(form: RespostaAtlzForm) : RespostaView {
-        val topico =topicorepopsitory.findById(form.topico)
+        val topico =topicorepository.findById(form.topico)
             .orElseThrow{NotFoundException(notfoundmessage)}
 
         if(topico.status.equals(StatusTopico.NAO_RESPONDIDO)) {
@@ -90,14 +99,14 @@ class RespostaService (private var topicoservice: TopicoService,
             resposta.mensagem = form.mensagem
             resposta.status = form.status
             topico.status = status
-            topicorepopsitory.save(topico)
+            topicorepository.save(topico)
             return  respostaVMapper.map(resposta)
         }
 
 
     fun atualizaStatus(status: Boolean,id: Long) : StatusTopico {
 
-        val topico = topicorepopsitory.findById(id)
+        val topico = topicorepository.findById(id)
             .orElseThrow{NotFoundException(notfoundmessage)}
 
 
@@ -128,7 +137,10 @@ class RespostaService (private var topicoservice: TopicoService,
             }
     }
 
-}
+
+    }
+
+
 
 
 

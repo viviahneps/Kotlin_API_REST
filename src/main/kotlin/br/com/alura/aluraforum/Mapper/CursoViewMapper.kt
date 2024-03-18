@@ -14,4 +14,5 @@ class CursoViewMapper : Mapper<Curso, CursoView> {
             nome = t.nome
         )
     }
+
 }
